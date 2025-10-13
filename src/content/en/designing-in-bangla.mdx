@@ -1,0 +1,35 @@
+---
+title: "Designing Bangla-first navigation patterns"
+summary: "How to keep Bangla and English labels balanced while shipping fast Next.js navigation."
+date: 2025-01-12
+tags: [design systems, navigation]
+---
+
+Bangla interfaces rarely get first-class attention. We end up squeezing text into components that were balanced for Latin scripts. This starter template flips that assumption and treats Bangla as a first-class citizen.
+
+## Measure text in rhythm units
+
+Instead of sizing navigation links by pixels, measure line length using **rhythm units**. In practice that means 4-unit padding for Bangla, 3-unit padding for English. When you switch languages, the hit area stays generous while the text remains readable.
+
+```tsx filename="src/components/layout/site-header.tsx"
+<Button asChild variant="subtle" className="hidden sm:inline-flex">
+  <Link href={`/${locale}#subscribe`}>
+    {strings.cta}
+    <span aria-hidden className="text-xl">…</span>
+  </Link>
+</Button>
+```
+
+## Keep focus rings consistent
+
+The template leans on `:focus-visible` to avoid distracting pointer users. Because the button API uses shadcn/ui variants, the same focus ring applies everywhere without rework.
+
+> Inclusive navigation is a design constraint, not an enhancement. When the language changes, the focus management and hit targets must remain predictable.
+
+### Checklist for your own project
+
+- ✅ Use `locale` in the route to decide spacing presets.
+- ✅ Ensure every focusable element exposes a visible ring at 3px.
+- ✅ Persist navigation state in the URL using `nuqs`.
+
+Happy building!
