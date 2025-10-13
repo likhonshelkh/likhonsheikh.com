@@ -9,6 +9,10 @@
   --color-foreground-muted: oklch(38% 0.03 254);
   --color-accent: oklch(65% 0.15 270);
   --color-accent-strong: oklch(58% 0.18 270);
+  --color-success: oklch(70% 0.12 150);
+  --color-success-strong: oklch(62% 0.14 150);
+  --color-warning: oklch(86% 0.13 70);
+  --color-warning-strong: oklch(64% 0.15 70);
   --ring: oklch(69% 0.22 270 / 0.75);
   --shadow-soft: 0 10px 30px oklch(21% 0.04 254 / 0.08);
 }

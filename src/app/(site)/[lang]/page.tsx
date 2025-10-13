@@ -5,6 +5,7 @@ import { ArticleGallery } from "@/components/layout/article-gallery";
 import { Hero } from "@/components/layout/hero";
 import { AboutSection } from "@/components/layout/about-section";
 import { SubscribeSection } from "@/components/layout/subscribe-section";
+import { PackageMaintenanceSection } from "@/components/layout/package-maintenance-section";
 import { getAllPosts, getAllTags } from "@/lib/content";
 import { isLocale, type Locale } from "@/lib/i18n";
 
@@ -29,6 +30,7 @@ export default async function LocalePage({ params }: Props) {
         <ArticleGallery posts={posts} tags={tags} locale={locale} />
       </Suspense>
       <AboutSection locale={locale} />
+      <PackageMaintenanceSection locale={locale} />
       <SubscribeSection locale={locale} />
     </div>
   );
