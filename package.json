@@ -12,7 +12,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "NODE_TEST_EXTENSIONS=.ts node --import tsx --test tests/content.test.ts",
+    "test": "NODE_TEST_EXTENSIONS=.ts node --import tsx --test tests/*.test.ts",
     "next:typegen": "next typegen"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "clsx": "2.1.1",
     "gray-matter": "4.0.3",
     "lucide-react": "0.474.0",
+    "motion": "^12.23.24",
     "next": "15.5.5",
     "next-mdx-remote": "5.0.0",
     "nuqs": "2.7.1",
