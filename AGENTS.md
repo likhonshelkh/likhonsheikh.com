@@ -18,3 +18,10 @@ A minimal blog template built using Next.js.
         }
     </style>
 </head>
+
+Performance Tip
+You can use the .min.css version for better performance and faster loading times.
+Standard CSS:
+https://banglawebfonts.pages.dev/css/solaiman-lipi.css
+Minified CSS:
+https://banglawebfonts.pages.dev/css/solaiman-lipi.min.css
