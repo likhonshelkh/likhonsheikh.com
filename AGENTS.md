@@ -1,3 +1,10 @@
+We need to do make ready likhonsheikh.com
+Author : Likhon Sheikh
+Social : t.me/likhonsheikh
+Githuh : https://github.com/likhonshelkh
+
+A minimal blog template built using Next.js.
+
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
