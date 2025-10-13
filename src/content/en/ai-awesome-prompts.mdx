@@ -1,0 +1,120 @@
+---
+title: "Awesome Bangla-first AI Prompt Playbook"
+summary: "Curated developer prompts that respect Bangla typography and modern Next.js workflows."
+date: 2025-01-15
+tags: [typography, bangla, ai, prompts]
+---
+
+import { Card } from "@/components/ui/card";
+
+AI copilots deserve prompts that understand Bangla rhythm, developer ergonomics, and the fast feedback loops we run on **likhonsheikh.com**. This guide keeps typography in check while giving you reusable snippets for everyday sprints.
+
+## 🌟 Table of Contents
+
+- Everyday Dev Tasks
+- Debugging
+- Documentation
+- Testing
+- Package Management
+- AI-Native Tasks
+- Context
+- Fun & Experimental
+- Start from Scratch
+
+<Card className="space-y-4 bg-gradient-to-br from-sky-900/60 via-purple-900/40 to-emerald-900/50 border-white/10 p-6 text-white">
+  <h3 className="text-lg font-semibold">Circle of craft · Łikhon Sheikh</h3>
+  <p className="text-sm text-white/80">
+    Crafted by <a href="https://github.com/likhonshelkh" className="underline decoration-sky-300 decoration-dashed underline-offset-4">@likhonshelkh</a> — connect on Telegram via <a href="https://t.me/likhonsheikh" className="underline decoration-emerald-300 underline-offset-4">@likhonsheikh</a>.
+  </p>
+</Card>
+
+## Everyday Dev Tasks
+
+Use this pattern whenever you need the copilot to respect Bangla interface copy.
+
+```mdx filename="prompt.md"
+You are a senior Next.js architect shipping bilingual (Bangla + English) flows.
+Respond with:
+1. Interface copy in Bangla, transliterated fallback in parentheses.
+2. Accessibility checklist referencing focus-visible + APCA contrast ≥ 60 Lc.
+3. Code diff (Next.js + shadcn/ui) ready to paste.
+```
+
+## Debugging
+
+Keep the instructions short but explicit so the AI preserves typography tokens.
+
+```bash filename="debug.sh"
+# Re-run with verbose logs and Bangla-friendly font stacks
+pnpm test --filter ui --reporter=junit
+NODE_OPTIONS="--trace-warnings" pnpm dev --turbo
+```
+
+## Documentation
+
+<Card className="bg-white/5 border-white/10 p-6 text-sm leading-relaxed">
+  <strong>Prompt:</strong> “Audit our Bangla typography guidelines for conflicting `line-height` and `font-feature-settings`. Return a markdown table with APCA deltas and recommended okLCH tokens.”
+</Card>
+
+## Testing
+
+When you document test prompts, keep them copyable with zero tweaks.
+
+```tsx filename="tests/font-system.test.tsx"
+import { expect, test } from "vitest";
+import { fontMetrics } from "@/lib/typography";
+
+test("Bangla baseline stays aligned", () => {
+  const baseline = fontMetrics.bn.baselinePx;
+  expect(baseline).toBeLessThanOrEqual(8);
+});
+```
+
+## Package Management
+
+Ask the AI to reason about pnpm workspaces and publish safety.
+
+```json filename="prompt.json"
+{
+  "role": "system",
+  "content": "Ensure pnpm overrides keep Bangla font loaders deduped across apps."
+}
+```
+
+## AI-Native Tasks
+
+- Keep partial prerendering hints (`generateStaticParams`) intact.
+- Preserve locale-specific metadata exports.
+- Ensure streaming UI includes polite `aria-live` for Bangla announcements.
+
+## Context
+
+If the assistant forgets the vibe, remind it of the original thesis.
+
+```text
+We build Bangla-first experiences. Default to APCA contrast math, not WCAG.
+```
+
+## Fun & Experimental
+
+Experiment with color-synced code fences by naming the palette tokens.
+
+```css filename="app/globals.css"
+pre[data-theme="bangla-sunset"] {
+  --shiki-token-keyword: oklch(70% 0.21 45);
+  --shiki-token-string: oklch(82% 0.18 120);
+  --shiki-token-function: oklch(74% 0.19 310);
+}
+```
+
+## Start from Scratch
+
+When you need a fresh repo, ask the model to scaffold the essentials.
+
+```bash filename="scaffold.sh"
+pnpm create next-app likhonsheikh-bangla-ai \
+  --tailwind --ts --src-dir --eslint \
+  --app --import-alias "@/*"
+```
+
+The more intentional your prompt scaffolding, the more time you save for actual craft. Keep iterating and stay kind to the Bangla type system.
