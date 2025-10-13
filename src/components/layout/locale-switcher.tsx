@@ -18,14 +18,17 @@ export function LocaleSwitcher() {
       {locales.map((locale) => {
         const active = segments[0] === locale;
         const href = `/${locale}${rest ? `/${rest}` : ""}` as Route;
+        const label = active
+          ? `You’re viewing ${localeLabels[locale]}`
+          : `Switch to ${localeLabels[locale]}`;
 
         return (
           <Link
             key={locale}
             href={href}
             scroll={false}
-            prefetch={true}
-            aria-pressed={active}
+            aria-current={active ? "page" : undefined}
+            aria-label={label}
             className={cn(
               buttonVariants({ variant: active ? "solid" : "outline", size: "sm" }),
               "min-w-[3.5rem] px-3",
