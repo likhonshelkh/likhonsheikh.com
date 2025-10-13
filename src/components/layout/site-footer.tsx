@@ -27,7 +27,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <Link className="hover:text-[color:var(--color-accent-strong)]" href={`/${locale}`}>
             {localeLabels[locale]}
           </Link>
-          <Link className="hover:text-[color:var(--color-accent-strong)]" href="https://github.com/zen69coder" target="_blank" rel="noreferrer">
+          <Link className="hover:text-[color:var(--color-accent-strong)]" href="https://github.com/likhonshelkh" target="_blank" rel="noreferrer">
             GitHub
           </Link>
           <Link className="hover:text-[color:var(--color-accent-strong)]" href="https://t.me/likhonsheikh" target="_blank" rel="noreferrer">

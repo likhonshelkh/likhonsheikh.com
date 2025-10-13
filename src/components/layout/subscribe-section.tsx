@@ -5,14 +5,14 @@ const copy: Record<Locale, { title: string; description: string; placeholder: st
   en: {
     title: "Stay in sync",
     description: "A monthly digest covering accessibility, component systems, and Bangla UX research.",
-    placeholder: "you@example.com",
+    placeholder: "you@example.com…",
     submit: "Join the newsletter",
     privacy: "We respect your inbox. Unsubscribe anytime.",
   },
   bn: {
     title: "নিয়মিত আপডেট পান",
     description: "অ্যাক্সেসিবিলিটি, কম্পোনেন্ট সিস্টেম আর বাংলা ইউএক্স রিসার্চ নিয়ে মাসিক ডাইজেস্ট।",
-    placeholder: "you@example.com",
+    placeholder: "you@example.com…",
     submit: "নিউজলেটারে যুক্ত হোন",
     privacy: "আপনার ইনবক্স নিরাপদ। যে কোন সময় আনসাবস্ক্রাইব করতে পারবেন।",
   },
@@ -38,16 +38,19 @@ export function SubscribeSection({ locale }: { locale: Locale }) {
           name="email"
           type="email"
           inputMode="email"
+          autoComplete="email"
           minLength={5}
           required
           placeholder={strings.placeholder}
+          spellCheck={false}
+          aria-describedby="subscribe-privacy"
           className="h-12 min-w-[240px] flex-1 rounded-full border border-[color:var(--color-surface-muted)] bg-white px-5 text-base text-[color:var(--color-foreground)] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)]"
         />
-        <Button type="submit" size="lg" aria-live="polite" data-min-duration="400">
+        <Button type="submit" size="lg" data-min-duration="400">
           {strings.submit}
         </Button>
       </form>
-      <p className="mt-4 text-xs text-[color:var(--color-foreground-muted)]">{strings.privacy}</p>
+      <p id="subscribe-privacy" className="mt-4 text-xs text-[color:var(--color-foreground-muted)]">{strings.privacy}</p>
     </section>
   );
 }

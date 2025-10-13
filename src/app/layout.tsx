@@ -17,7 +17,8 @@ export const metadata: Metadata = {
   applicationName: "likhonsheikh.com",
   generator: "Next.js 15.5",
   keywords: ["Bangla", "Next.js", "MDX", "Design systems", "Accessibility"],
-  authors: [{ name: "Likhon Sheikh", url: "https://github.com/zen69coder" }],
+  authors: [{ name: "Likhon Sheikh", url: "https://github.com/likhonshelkh" }],
+  themeColor: [{ media: "(prefers-color-scheme: light)", color: "#f5f7ff" }],
   alternates: {
     canonical: "/",
     languages: {
@@ -45,10 +46,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0b0f",
+  themeColor: "#f5f7ff",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
