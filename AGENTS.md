@@ -1,0 +1,13 @@
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Likhom Sheikh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link href="https://banglawebfonts.pages.dev/css/solaiman-lipi.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Playfair Display', 'Solaiman Lipi', serif;
+        }
+    </style>
+</head>
