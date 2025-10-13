@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans-latin), var(--font-sans-bengali), "Inter", "Helvetica Neue", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-surface: oklch(98% 0.02 240);
+  --color-surface-muted: oklch(94% 0.03 240);
+  --color-surface-strong: oklch(18% 0.02 240);
+  --color-foreground: oklch(21% 0.04 254);
+  --color-foreground-muted: oklch(38% 0.03 254);
+  --color-accent: oklch(65% 0.15 270);
+  --color-accent-strong: oklch(58% 0.18 270);
+  --ring: oklch(69% 0.22 270 / 0.75);
+  --shadow-soft: 0 10px 30px oklch(21% 0.04 254 / 0.08);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-surface);
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  outline: none;
+}
+
+a {
+  color: var(--color-accent-strong);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.2em;
+  transition: color 150ms ease;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-accent);
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 4px;
+}
+
+[data-inert="true"] {
+  pointer-events: none;
+  user-select: none;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5 {
+  font-weight: 700;
+}
+
+.prose p,
+.prose li {
+  line-height: 1.75;
+}
+
+.prose code {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95em;
+}
+
+.skip-nav {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: 1rem;
+  z-index: 50;
+  translate: 0 -140%;
+  transition: translate 160ms ease;
+}
+
+.skip-nav:focus-visible {
+  translate: 0 0;
+}
+
+.card-shadow {
+  box-shadow: var(--shadow-soft);
+}
+
+.focus-within-ring:focus-within {
+  box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 4px var(--ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
