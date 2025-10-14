@@ -6,7 +6,7 @@ import { Hero } from "@/components/layout/hero";
 import { AboutSection } from "@/components/layout/about-section";
 import { SubscribeSection } from "@/components/layout/subscribe-section";
 import { PackageMaintenanceSection } from "@/components/layout/package-maintenance-section";
-import { LobeUiSection } from "@/components/layout/lobe-ui-section";
+import { MotionSection } from "@/components/layout/motion-section";
 import { getAllPosts, getAllTags } from "@/lib/content";
 import { isLocale, type Locale } from "@/lib/i18n";
 
@@ -27,7 +27,7 @@ export default async function LocalePage({ params }: Props) {
   return (
     <div className="flex flex-col gap-12">
       <Hero locale={locale} />
-      <LobeUiSection locale={locale} />
+      <MotionSection locale={locale} />
       <Suspense fallback={<ArticleGalleryFallback />}>
         <ArticleGallery posts={posts} tags={tags} locale={locale} />
       </Suspense>
