@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button-variants";
@@ -39,10 +40,18 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <div className="flex items-center gap-4">
           <Link
             href={`/${locale}`}
-            className="rounded-full px-3 py-2 text-sm font-semibold tracking-tight text-[color:var(--color-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)]"
+            className="group inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold tracking-tight text-[color:var(--color-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)]"
             aria-label={homeLabel}
           >
-            likhonsheikh.com
+            <Image
+              src="/favicon.svg"
+              alt=""
+              width={28}
+              height={28}
+              aria-hidden
+              className="h-7 w-7 transition-transform duration-200 group-hover:scale-105"
+            />
+            <span className="text-sm font-semibold tracking-tight">likhonsheikh.com</span>
           </Link>
           <nav className="hidden items-center gap-3 text-sm font-medium sm:flex" aria-label="Primary">
             <Link className="hover:text-[color:var(--color-accent-strong)]" href={`/${locale}#articles`}>
