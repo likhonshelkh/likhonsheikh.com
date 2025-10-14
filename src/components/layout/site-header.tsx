@@ -4,6 +4,7 @@ import { buttonVariants } from "@/components/ui/button-variants";
 import { localeLabels, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
+import { GoogleTranslateToggle } from "./google-translate-toggle";
 import { LocaleSwitcher } from "./locale-switcher";
 
 interface HeaderCopy {
@@ -56,6 +57,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           </nav>
         </div>
         <div className="flex items-center gap-3">
+          <GoogleTranslateToggle />
           <LocaleSwitcher />
           <Link
             href={`/${locale}#subscribe`}
