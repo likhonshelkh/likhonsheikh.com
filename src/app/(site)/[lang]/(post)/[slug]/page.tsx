@@ -47,6 +47,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const languages: Record<string, string> = {};
 
+  const heroImage = post.hero
+    ? [
+        {
+          url: post.hero,
+          alt: post.heroAlt ?? post.title,
+        },
+      ]
+    : undefined;
+
   for (const [language, slugs] of slugLookup) {
     if (slugs.has(resolved.slug)) {
       languages[language] = `/${language}/${post.slug}`;
@@ -63,13 +72,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.summary,
       locale: locale === "bn" ? "bn_BD" : "en_US",
-      images: [heroImage],
+      images: heroImage,
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.summary,
-      images: [post.hero],
+      images: heroImage,
     },
   } satisfies Metadata;
 }

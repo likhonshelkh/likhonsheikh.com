@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { z } from "zod";
 
 import type { Locale } from "./i18n";
-import { defaultLocale, localeDateFormatter } from "./i18n";
+import { defaultLocale, localeDateFormatter, locales } from "./i18n";
 import { formatDate, invariant } from "./utils";
 
 const contentRoot = path.join(process.cwd(), "src", "content");
@@ -21,7 +21,8 @@ const frontmatterSchema = z
     lang: z.string().min(2),
     translatedFrom: z.string().min(2).optional(),
     translationSource: z.string().optional(),
-    hero: z.string().optional(),
+    hero: z.string().min(1),
+    heroAlt: z.string().min(3),
   })
   .transform((data) => ({
     ...data,
@@ -106,7 +107,7 @@ function createPostSummary({
   } satisfies PostSummary;
 }
 
-export const getAllPosts = cache(async (locale: Locale) => {
+const readPostsByLocale = cache(async (locale: Locale) => {
   const localeFiles = await readLocaleDirectory(locale);
   const defaultFiles =
     locale === defaultLocale ? localeFiles : await readLocaleDirectory(defaultLocale);
@@ -166,6 +167,9 @@ export const getPost = cache(async (locale: Locale, slug: string) => {
   const { data } = matter(source);
   const frontmatter = frontmatterSchema.parse(data);
   const { compileMDX } = await import("next-mdx-remote/rsc");
+  const { Card, CardDescription, CardFooter, CardHeader, CardTitle } = await import(
+    "@/components/ui/card"
+  );
   const { content } = await compileMDX<PostFrontmatter>({
     source,
     options: {
@@ -173,7 +177,7 @@ export const getPost = cache(async (locale: Locale, slug: string) => {
         remarkPlugins: [remarkGfm],
       },
     },
-    components: {},
+    components: { Card, CardDescription, CardFooter, CardHeader, CardTitle },
   });
 
   const summary = createPostSummary({ source, slug, displayLocale: locale });
