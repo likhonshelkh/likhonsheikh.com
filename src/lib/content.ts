@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { z } from "zod";
 
 import type { Locale } from "./i18n";
-import { localeDateFormatter } from "./i18n";
+import { defaultLocale, localeDateFormatter } from "./i18n";
 import { formatDate, invariant } from "./utils";
 
 const contentRoot = path.join(process.cwd(), "src", "content");
@@ -18,7 +18,9 @@ const frontmatterSchema = z
     summary: z.string().min(10),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
-    lang: z.string().optional(),
+    lang: z.string().min(2),
+    translatedFrom: z.string().min(2).optional(),
+    translationSource: z.string().optional(),
     hero: z.string().optional(),
   })
   .transform((data) => ({
@@ -45,22 +47,52 @@ export interface PostDetail extends PostSummary {
 
 async function readLocaleDirectory(locale: Locale) {
   const localeDir = path.join(contentRoot, locale);
-  const files = await readdir(localeDir);
-  return files.filter((file) => file.endsWith(".mdx"));
+  try {
+    const files = await readdir(localeDir);
+    return files.filter((file) => file.endsWith(".mdx"));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return [];
+    }
+    throw error;
+  }
 }
 
-async function parseFrontmatter(locale: Locale, fileName: string) {
-  const source = await readFile(path.join(contentRoot, locale, fileName), "utf8");
+async function readPostSource(preferredLocale: Locale, slug: string) {
+  const attempts = Array.from(new Set<Locale>([preferredLocale, defaultLocale]));
+
+  for (const locale of attempts) {
+    try {
+      const source = await readFile(path.join(contentRoot, locale, `${slug}.mdx`), "utf8");
+      return { source, fileLocale: locale };
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+        throw error;
+      }
+    }
+  }
+
+  throw new Error(`Post '${slug}' not found for locales: ${attempts.join(", ")}`);
+}
+
+function createPostSummary({
+  source,
+  slug,
+  displayLocale,
+}: {
+  source: string;
+  slug: string;
+  displayLocale: Locale;
+}) {
   const { data, content } = matter(source);
   const parsed = frontmatterSchema.parse(data);
 
-  const slug = fileName.replace(/\.mdx?$/, "");
   const stats = readingTime(content);
-  const formatter = localeDateFormatter[locale];
+  const formatter = localeDateFormatter[displayLocale];
 
   return {
     slug,
-    locale,
+    locale: displayLocale,
     title: parsed.title,
     summary: parsed.summary,
     tags: parsed.tags,
@@ -71,14 +103,25 @@ async function parseFrontmatter(locale: Locale, fileName: string) {
 }
 
 export const getAllPosts = cache(async (locale: Locale) => {
-  const files = await readLocaleDirectory(locale);
-  const summaries = await Promise.all(files.map((file) => parseFrontmatter(locale, file)));
+  const localeFiles = await readLocaleDirectory(locale);
+  const defaultFiles =
+    locale === defaultLocale ? localeFiles : await readLocaleDirectory(defaultLocale);
+  const slugs = new Set(
+    [...localeFiles, ...defaultFiles].map((file) => file.replace(/\.mdx?$/, "")),
+  );
+
+  const summaries = await Promise.all(
+    Array.from(slugs).map(async (slug) => {
+      const { source } = await readPostSource(locale, slug);
+      return createPostSummary({ source, slug, displayLocale: locale });
+    }),
+  );
+
   return summaries.sort((a, b) => (a.date < b.date ? 1 : -1));
 });
 
 export const getPost = cache(async (locale: Locale, slug: string) => {
-  const filePath = path.join(contentRoot, locale, `${slug}.mdx`);
-  const source = await readFile(filePath, "utf8");
+  const { source } = await readPostSource(locale, slug);
   const { data } = matter(source);
   const frontmatter = frontmatterSchema.parse(data);
   const { compileMDX } = await import("next-mdx-remote/rsc");
@@ -92,7 +135,7 @@ export const getPost = cache(async (locale: Locale, slug: string) => {
     components: {},
   });
 
-  const summary = await parseFrontmatter(locale, `${slug}.mdx`);
+  const summary = createPostSummary({ source, slug, displayLocale: locale });
 
   invariant(frontmatter, `Missing frontmatter for ${slug}`);
 

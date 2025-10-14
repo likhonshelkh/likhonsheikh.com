@@ -13,7 +13,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "NODE_TEST_EXTENSIONS=.ts node --import tsx --test tests/*.test.ts",
-    "next:typegen": "next typegen"
+    "next:typegen": "next typegen",
+    "translate": "tsx scripts/translate.ts"
   },
   "dependencies": {
     "@fontsource-variable/noto-sans": "5.2.10",
