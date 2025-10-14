@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Rainbow button abstract illustration</title>
+  <desc id="desc">Soft gradients and rounded rectangles evoking a glowing rainbow call to action.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#f97316" />
+      <stop offset="25%" stop-color="#f43f5e" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="75%" stop-color="#22d3ee" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)" />
+  <rect x="160" y="150" width="640" height="240" rx="120" fill="#111827" opacity="0.6" />
+  <rect x="200" y="190" width="560" height="160" rx="80" fill="url(#glow)" opacity="0.85" />
+  <rect x="260" y="220" width="440" height="100" rx="50" fill="#111827" opacity="0.85" />
+  <text x="480" y="275" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="48" fill="#f8fafc" text-anchor="middle" font-weight="600">
+    Rainbow Button
+  </text>
+</svg>
