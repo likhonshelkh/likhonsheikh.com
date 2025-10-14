@@ -23,6 +23,8 @@ interface Copy {
   features: Feature[];
 }
 
+const DEFAULT_EASE = [0.16, 1, 0.3, 1] as const;
+
 const copy: Record<Locale, Copy> = {
   en: {
     eyebrow: "Motion Animation Library",
@@ -91,7 +93,7 @@ export function MotionSection({ locale }: { locale: Locale }) {
     : {
         initial: { opacity: 0, y: 28 },
         whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
+        transition: { duration: 0.65, ease: DEFAULT_EASE },
         viewport: { once: true, margin: "-10% 0px -10% 0px" },
       };
 
@@ -111,7 +113,7 @@ export function MotionSection({ locale }: { locale: Locale }) {
             : {
                 initial: { opacity: 0, y: 20 },
                 whileInView: { opacity: 1, y: 0 },
-                transition: { duration: 0.6, delay: 0.05, ease: [0.16, 1, 0.3, 1] },
+                transition: { duration: 0.6, delay: 0.05, ease: DEFAULT_EASE },
                 viewport: { once: true, margin: "-15% 0px -15% 0px" },
               })}
         >
@@ -165,7 +167,7 @@ export function MotionSection({ locale }: { locale: Locale }) {
                 : {
                     initial: { opacity: 0, y: 24 },
                     whileInView: { opacity: 1, y: 0 },
-                    transition: { duration: 0.55, delay: 0.1 + index * 0.05, ease: [0.16, 1, 0.3, 1] },
+                    transition: { duration: 0.55, delay: 0.1 + index * 0.05, ease: DEFAULT_EASE },
                     viewport: { once: true, margin: "-15% 0px -15% 0px" },
                   })}
             >
