@@ -1,30 +1,22 @@
 "use client"
 
 import * as React from "react"
-import useEmblaCarousel from "embla-carousel-react"
+import useEmblaCarousel, {
+  type UseEmblaCarouselType,
+} from "embla-carousel-react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-type CarouselOptions = Record<string, unknown>
-type CarouselPlugin = unknown
-type CarouselApi = {
-  canScrollPrev(): boolean
-  canScrollNext(): boolean
-  scrollPrev(): void
-  scrollNext(): void
-  on(event: string, handler: (api: CarouselApi) => void): void
-  off(event: string, handler: (api: CarouselApi) => void): void
-}
-type CarouselInstance = [
-  (node: HTMLElement | null) => void,
-  CarouselApi | undefined,
-]
+type CarouselApi = UseEmblaCarouselType[1]
+type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
+type CarouselOptions = UseCarouselParameters[0]
+type CarouselPlugin = UseCarouselParameters[1]
 
 type CarouselProps = {
   opts?: CarouselOptions
-  plugins?: CarouselPlugin[]
+  plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
   setApi?: (api: CarouselApi) => void
 }
@@ -66,20 +58,23 @@ const Carousel = React.forwardRef<
     },
     ref,
   ) => {
-    const [carouselRef, emblaApi] = useEmblaCarousel(
+    const [carouselRef, api] = useEmblaCarousel(
       {
-        ...(opts ?? {}),
+        ...opts,
         axis: orientation === "horizontal" ? "x" : "y",
       },
       plugins,
-    ) as CarouselInstance
-    const api = emblaApi ?? null
+    )
     const [canScrollPrev, setCanScrollPrev] = React.useState(false)
     const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-    const onSelect = React.useCallback((embla: CarouselApi) => {
-      setCanScrollPrev(embla.canScrollPrev())
-      setCanScrollNext(embla.canScrollNext())
+    const onSelect = React.useCallback((api: CarouselApi) => {
+      if (!api) {
+        return
+      }
+
+      setCanScrollPrev(api.canScrollPrev())
+      setCanScrollNext(api.canScrollNext())
     }, [])
 
     const scrollPrev = React.useCallback(() => {
@@ -121,8 +116,7 @@ const Carousel = React.forwardRef<
       api.on("select", onSelect)
 
       return () => {
-        api.off("reInit", onSelect)
-        api.off("select", onSelect)
+        api?.off("select", onSelect)
       }
     }, [api, onSelect])
 
