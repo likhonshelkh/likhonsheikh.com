@@ -63,6 +63,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.summary,
       locale: locale === "bn" ? "bn_BD" : "en_US",
+      images: [heroImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary,
+      images: [post.hero],
     },
   } satisfies Metadata;
 }

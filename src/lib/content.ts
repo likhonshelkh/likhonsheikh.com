@@ -19,7 +19,13 @@ const frontmatterSchema = z
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     lang: z.string().optional(),
-    hero: z.string().optional(),
+    hero: z
+      .string()
+      .min(1)
+      .refine((value) => value.startsWith("/"), {
+        message: "hero path must be relative to the public directory and start with /",
+      }),
+    heroAlt: z.string().min(5),
   })
   .transform((data) => ({
     ...data,
@@ -37,6 +43,8 @@ export interface PostSummary {
   date: string;
   formattedDate: string;
   readingTime: string;
+  hero: string;
+  heroAlt: string;
 }
 
 export interface PostDetail extends PostSummary {
@@ -67,6 +75,8 @@ async function parseFrontmatter(locale: Locale, fileName: string) {
     date: parsed.date.toISOString(),
     formattedDate: formatDate(formatter, parsed.date),
     readingTime: stats.text,
+    hero: parsed.hero,
+    heroAlt: parsed.heroAlt,
   } satisfies PostSummary;
 }
 

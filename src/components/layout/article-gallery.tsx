@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 import { parseAsString, useQueryState } from "nuqs";
@@ -81,7 +82,17 @@ export function ArticleGallery({ posts, tags, locale }: Props) {
 
       <div className="grid gap-6 md:grid-cols-2">
         {filtered.map((post) => (
-          <Card key={post.slug} className="focus-within-ring">
+          <Card key={post.slug} className="overflow-hidden focus-within-ring">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-[color:var(--color-surface-muted)]">
+              <Image
+                fill
+                src={post.hero}
+                alt={post.heroAlt}
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+                priority={false}
+              />
+            </div>
             <CardHeader>
               <CardTitle>
                 <Link
