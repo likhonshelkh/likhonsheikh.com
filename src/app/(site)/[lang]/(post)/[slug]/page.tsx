@@ -45,6 +45,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
+  const heroImage = {
+    url: post.hero,
+    alt: post.heroAlt,
+    width: 1600,
+    height: 900,
+  };
+
   return {
     title: post.title,
     description: post.summary,
@@ -58,6 +65,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.summary,
       locale: locale === "bn" ? "bn_BD" : "en_US",
+      images: [heroImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary,
+      images: [post.hero],
     },
   } satisfies Metadata;
 }

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Bangla-first navigation illustration</title>
+  <desc id="desc">Layered interface cards arranged diagonally with Bangla and English labels.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#1b2845" />
+      <stop offset="100%" stop-color="#2c0f4a" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#7dd3fc" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)" rx="64" />
+  <g transform="translate(320 180)" opacity="0.95">
+    <rect width="960" height="560" rx="48" fill="#0f172a" opacity="0.55" />
+  </g>
+  <g transform="translate(380 240)">
+    <rect width="860" height="460" rx="42" fill="#111827" opacity="0.7" />
+    <rect x="56" y="72" width="270" height="64" rx="20" fill="url(#accent)" opacity="0.9" />
+    <rect x="360" y="72" width="220" height="64" rx="20" fill="#1d4ed8" opacity="0.8" />
+    <rect x="56" y="180" width="640" height="28" rx="14" fill="#94a3b8" opacity="0.7" />
+    <rect x="56" y="230" width="520" height="20" rx="10" fill="#64748b" opacity="0.8" />
+    <rect x="56" y="300" width="180" height="48" rx="16" fill="#facc15" opacity="0.85" />
+    <rect x="256" y="300" width="220" height="48" rx="16" fill="#34d399" opacity="0.85" />
+    <rect x="516" y="300" width="220" height="48" rx="16" fill="#f472b6" opacity="0.85" />
+  </g>
+</svg>

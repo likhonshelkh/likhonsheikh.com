@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { getAllPosts } from "@/lib/content";
 import { isLocale, localeMeta, locales, type Locale } from "@/lib/i18n";
 
 interface Props {
@@ -23,6 +24,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const locale = resolved.lang as Locale;
   const meta = localeMeta[locale];
+  const [firstPost] = await getAllPosts(locale);
+  const heroImages = firstPost
+    ? [
+        {
+          url: firstPost.hero,
+          alt: firstPost.heroAlt,
+          width: 1600,
+          height: 900,
+        },
+      ]
+    : undefined;
 
   return {
     title: {
@@ -40,6 +52,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: locale === "bn" ? "bn_BD" : "en_US",
       title: meta.title,
       description: meta.description,
+      images: heroImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+      images: heroImages?.map((image) => image.url),
     },
   } satisfies Metadata;
 }

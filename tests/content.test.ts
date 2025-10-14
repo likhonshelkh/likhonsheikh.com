@@ -27,3 +27,15 @@ test("Bangla posts retain locale metadata", async () => {
   assert.equal(target?.locale, "bn");
   assert.ok(target?.summary.includes("বাংলা"));
 });
+
+test("post summaries retain hero metadata", async () => {
+  const posts = await getAllPosts("en");
+  const target = posts.find((post) => post.slug === "designing-in-bangla");
+
+  assert.ok(target, "expected designing-in-bangla summary to be available");
+  assert.equal(target?.hero, "/heroes/designing-in-bangla.svg");
+  assert.equal(
+    target?.heroAlt,
+    "Hero illustration showing Bangla-first navigation patterns with layered cards"
+  );
+});
