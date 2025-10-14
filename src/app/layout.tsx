@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 
-import { Providers } from "@/components/layout/providers";
 import { SkipNav } from "@/components/layout/skip-nav";
 import "./globals.css";
 import { fontVariables } from "@/lib/fonts";
-import { defaultLocale, localeMeta } from "@/lib/i18n";
+import { defaultLocale, isLocale, localeDirections, localeMeta } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://likhonsheikh.com"),
@@ -51,12 +50,27 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+interface RootLayoutProps {
+  children: ReactNode;
+  params: Promise<{ lang?: string }>;
+}
+
+export default async function RootLayout({ children, params }: RootLayoutProps) {
+  const resolved = await params;
+  const locale = resolved?.lang && isLocale(resolved.lang) ? resolved.lang : defaultLocale;
+  const direction = localeDirections[locale];
+
   return (
-    <html lang={defaultLocale} suppressHydrationWarning className={`${fontVariables} antialiased`}>
+    <html
+      lang={locale}
+      dir={direction}
+      data-locale={locale}
+      suppressHydrationWarning
+      className={`${fontVariables} antialiased`}
+    >
       <body className="min-h-screen bg-[color:var(--color-surface)] text-[color:var(--color-foreground)]">
         <SkipNav />
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );
