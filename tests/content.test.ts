@@ -27,3 +27,16 @@ test("Bangla posts retain locale metadata", async () => {
   assert.equal(target?.locale, "bn");
   assert.ok(target?.summary.includes("বাংলা"));
 });
+
+test("slug lookup tracks locales with available translations", async () => {
+  const result = await getAllPosts("en", { withSlugLookup: true });
+
+  assert.ok(Array.isArray(result.posts), "expected posts array");
+  assert.ok(result.slugLookup instanceof Map, "slug lookup should be a Map");
+
+  const englishSlugs = result.slugLookup.get("en");
+  const banglaSlugs = result.slugLookup.get("bn");
+
+  assert.ok(englishSlugs?.has("typography-grid"), "English slug should exist in lookup");
+  assert.ok(!banglaSlugs?.has("typography-grid"), "Bangla lookup should omit missing translation");
+});

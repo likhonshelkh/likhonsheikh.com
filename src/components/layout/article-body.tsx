@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ReactElement } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,16 @@ export function ArticleBody({
 
   return (
     <article className="prose prose-neutral max-w-3xl text-base" data-locale={post.locale}>
+      <div className="relative mb-10 aspect-[16/9] w-full overflow-hidden rounded-3xl bg-[color:var(--color-surface-muted)]">
+        <Image
+          fill
+          src={post.hero}
+          alt={post.heroAlt}
+          className="object-cover"
+          priority={false}
+          sizes="(min-width: 768px) 768px, 100vw"
+        />
+      </div>
       <header className="mb-10 space-y-4">
         <p className="text-sm font-medium uppercase tracking-[0.3em] text-[color:var(--color-foreground-muted)]">
           {formatDate(formatter, post.date)}

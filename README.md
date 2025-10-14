@@ -46,6 +46,10 @@ tags: [typography, bangla]
 
 Posts can embed React components and fenced code blocks. Reading time, localized publish dates, and unique tags are generated automatically.
 
+## Machine translation fallback
+
+The site ships with a small Google Translate toggle in the header so readers can request quick machine translations beyond English and Bangla. These renditions always originate from the English route (`/en`) and are stored in the URL via the `?translate=<code>` query string so state can survive reloads. If a requested language matches one of the curated locales in `src/lib/i18n.ts`, the toggle automatically routes to the handcrafted MDX version instead of machine output. Editors should continue to prioritize MDX content for supported locales—Google Translate is only a stopgap for readers exploring unsupported languages.
+
 ## Deployment
 
 A `vercel.json` configuration is included for Vercel Edge deployment in the `bom1` region with hardened response headers. Locale redirects run through edge middleware to keep keyboard interactions consistent.

@@ -9,6 +9,13 @@ export const localeLabels: Record<Locale, string> = {
   bn: "বাংলা",
 };
 
+export const machineLocaleLabels = {
+  es: "Español",
+  hi: "हिन्दी",
+} as const;
+
+export type MachineLocale = keyof typeof machineLocaleLabels;
+
 export function isLocale(value: string | undefined): value is Locale {
   return !!value && locales.includes(value as Locale);
 }

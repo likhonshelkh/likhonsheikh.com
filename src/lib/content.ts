@@ -39,6 +39,8 @@ export interface PostSummary {
   date: string;
   formattedDate: string;
   readingTime: string;
+  hero: string;
+  heroAlt: string;
 }
 
 export interface PostDetail extends PostSummary {
@@ -99,6 +101,8 @@ function createPostSummary({
     date: parsed.date.toISOString(),
     formattedDate: formatDate(formatter, parsed.date),
     readingTime: stats.text,
+    hero: parsed.hero,
+    heroAlt: parsed.heroAlt,
   } satisfies PostSummary;
 }
 
@@ -119,6 +123,43 @@ export const getAllPosts = cache(async (locale: Locale) => {
 
   return summaries.sort((a, b) => (a.date < b.date ? 1 : -1));
 });
+
+const slugLookupCache = cache(async () => {
+  const entries = await Promise.all(
+    locales.map(async (locale) => {
+      const files = await readLocaleDirectory(locale);
+      const slugs = new Set(files.map((file) => file.replace(/\.mdx?$/, "")));
+      return [locale, slugs] as const;
+    })
+  );
+
+  return new Map(entries);
+});
+
+export interface GetAllPostsOptions {
+  withSlugLookup?: boolean;
+}
+
+export type SlugLookup = Map<Locale, Set<string>>;
+
+export async function getAllPosts(locale: Locale): Promise<PostSummary[]>;
+export async function getAllPosts(
+  locale: Locale,
+  options: { withSlugLookup: true }
+): Promise<{ posts: PostSummary[]; slugLookup: SlugLookup }>;
+export async function getAllPosts(
+  locale: Locale,
+  options?: GetAllPostsOptions
+): Promise<PostSummary[] | { posts: PostSummary[]; slugLookup: SlugLookup }> {
+  const posts = await readPostsByLocale(locale);
+
+  if (options?.withSlugLookup) {
+    const slugLookup = await slugLookupCache();
+    return { posts, slugLookup };
+  }
+
+  return posts;
+}
 
 export const getPost = cache(async (locale: Locale, slug: string) => {
   const { source } = await readPostSource(locale, slug);

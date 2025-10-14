@@ -38,26 +38,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const locale = resolved.lang as Locale;
-  const posts = await getAllPosts(locale);
+  const { posts, slugLookup } = await getAllPosts(locale, { withSlugLookup: true });
   const post = posts.find((entry) => entry.slug === resolved.slug);
 
   if (!post) {
     return {};
   }
 
+  const languages: Record<string, string> = {};
+
+  for (const [language, slugs] of slugLookup) {
+    if (slugs.has(resolved.slug)) {
+      languages[language] = `/${language}/${post.slug}`;
+    }
+  }
+
   return {
     title: post.title,
     description: post.summary,
     alternates: {
-      languages: {
-        en: `/en/${post.slug}`,
-        bn: `/bn/${post.slug}`,
-      },
+      languages,
     },
     openGraph: {
       title: post.title,
       description: post.summary,
       locale: locale === "bn" ? "bn_BD" : "en_US",
+      images: [heroImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary,
+      images: [post.hero],
     },
   } satisfies Metadata;
 }
