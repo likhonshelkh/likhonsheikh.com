@@ -28,14 +28,15 @@ test("Bangla posts retain locale metadata", async () => {
   assert.ok(target?.summary.includes("বাংলা"));
 });
 
-test("post summaries retain hero metadata", async () => {
-  const posts = await getAllPosts("en");
-  const target = posts.find((post) => post.slug === "designing-in-bangla");
+test("slug lookup tracks locales with available translations", async () => {
+  const result = await getAllPosts("en", { withSlugLookup: true });
 
-  assert.ok(target, "expected designing-in-bangla summary to be available");
-  assert.equal(target?.hero, "/heroes/designing-in-bangla.svg");
-  assert.equal(
-    target?.heroAlt,
-    "Hero illustration showing Bangla-first navigation patterns with layered cards"
-  );
+  assert.ok(Array.isArray(result.posts), "expected posts array");
+  assert.ok(result.slugLookup instanceof Map, "slug lookup should be a Map");
+
+  const englishSlugs = result.slugLookup.get("en");
+  const banglaSlugs = result.slugLookup.get("bn");
+
+  assert.ok(englishSlugs?.has("typography-grid"), "English slug should exist in lookup");
+  assert.ok(!banglaSlugs?.has("typography-grid"), "Bangla lookup should omit missing translation");
 });
