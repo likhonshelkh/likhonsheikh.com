@@ -24,6 +24,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const locale = resolved.lang as Locale;
   const meta = localeMeta[locale];
+  const [firstPost] = await getAllPosts(locale);
+  const heroImages = firstPost
+    ? [
+        {
+          url: firstPost.hero,
+          alt: firstPost.heroAlt,
+          width: 1600,
+          height: 900,
+        },
+      ]
+    : undefined;
 
   return {
     title: {
@@ -41,6 +52,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: locale === "bn" ? "bn_BD" : "en_US",
       title: meta.title,
       description: meta.description,
+      images: heroImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+      images: heroImages?.map((image) => image.url),
     },
   } satisfies Metadata;
 }
