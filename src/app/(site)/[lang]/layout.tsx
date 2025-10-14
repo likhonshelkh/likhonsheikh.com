@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { Providers } from "@/components/layout/providers";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { getAllPosts } from "@/lib/content";
 import { isLocale, localeDirections, localeMeta, locales, type Locale } from "@/lib/i18n";
 
 interface Props {

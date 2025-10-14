@@ -1,5 +1,6 @@
 "use client";
 
+import type { Route } from "next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { buttonVariants } from "@/components/ui/button-variants";
@@ -185,7 +186,9 @@ export function GoogleTranslateToggle() {
       url.searchParams.delete("translate");
     }
 
-    await router.replace(`${url.pathname}${url.search ? `?${url.searchParams.toString()}` : ""}`, {
+    const href = `${url.pathname}${url.search ? `?${url.searchParams.toString()}` : ""}` as Route;
+
+    await router.replace(href, {
       scroll: false,
     });
   });
@@ -266,12 +269,14 @@ function isMachineLocaleCode(value: string): value is MachineLocale {
   return Object.prototype.hasOwnProperty.call(machineLocaleLabels, value);
 }
 
-function useEffectEvent<T extends (...args: any[]) => unknown>(handler: T): T {
+function useEffectEvent<TArgs extends unknown[], TResult>(
+  handler: (...args: TArgs) => TResult,
+): (...args: TArgs) => TResult {
   const handlerRef = useRef(handler);
 
   useEffect(() => {
     handlerRef.current = handler;
   }, [handler]);
 
-  return useCallback(((...args: Parameters<T>) => handlerRef.current(...args)) as T, []);
+  return useCallback((...args: TArgs) => handlerRef.current(...args), []);
 }
