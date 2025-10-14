@@ -13,13 +13,18 @@ export function useLocale() {
   return useContext(LocaleContext);
 }
 
-export function Providers({ children }: { children: ReactNode }) {
+interface ProvidersProps {
+  children: ReactNode;
+  initialLocale?: Locale;
+}
+
+export function Providers({ children, initialLocale = defaultLocale }: ProvidersProps) {
   const pathname = usePathname();
 
   const locale = useMemo<Locale>(() => {
     const segment = pathname?.split("/").filter(Boolean)[0];
-    return isLocale(segment) ? segment : defaultLocale;
-  }, [pathname]);
+    return isLocale(segment) ? segment : initialLocale;
+  }, [pathname, initialLocale]);
 
   useEffect(() => {
     const html = document.documentElement;
